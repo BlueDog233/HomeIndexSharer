@@ -1,0 +1,6 @@
+# 发件人（必须正确，否则发送失败）
+from = 2052774863@qq.com
+# 密码（注意，某些邮箱需要为SMTP服务单独设置密码，详情查看相关帮助）
+pass = ieaujbxqkxxafcea
+# 邮件服务器的SMTP地址，可选，默认为smtp.<发件人邮箱后缀>
+host = smtp.qq.com
