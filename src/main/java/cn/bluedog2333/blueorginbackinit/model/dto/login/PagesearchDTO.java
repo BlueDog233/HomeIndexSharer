@@ -8,7 +8,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PagesearchDTO {
+    //关键词
     private String keyword;
+    //页数
     private int pageNum;
+    //每页数
     private int pageSize;
 }

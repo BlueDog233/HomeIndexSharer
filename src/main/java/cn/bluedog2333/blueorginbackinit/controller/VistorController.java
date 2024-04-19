@@ -11,6 +11,7 @@ public class VistorController {
     @PostMapping("/{id}")
     public Result<VisitView> visit(@PathVariable("id") Integer id){
         //todo 其他人访问页面逻辑
+        return Result.success(new VisitView());
     }
 
 }

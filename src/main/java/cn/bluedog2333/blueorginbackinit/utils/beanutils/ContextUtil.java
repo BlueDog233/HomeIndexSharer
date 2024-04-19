@@ -17,6 +17,9 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+/**
+ * 上下文处理工具,用于获取 Bean以及 通过当前token获取User对象
+ */
 @Component
 public class ContextUtil implements ApplicationContextAware {
 

@@ -11,6 +11,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * 权限校验AOP(目前可以先不写权限校验 写完之后统一打权限校验@)
+ */
 @Aspect
 @Component
 public class AuthAOP {

@@ -9,7 +9,10 @@ import org.springframework.context.annotation.Scope;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginDTO {
+    //用户名
     private String nickname;
+    //密码
     private String password;
+    //验证码
     private String verifyCode;
 }

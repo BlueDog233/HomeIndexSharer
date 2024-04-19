@@ -25,6 +25,13 @@ public class VerifyCodeUtil {
     public void setVerifyCode(String key,String code){
         redisTemplate.opsForValue().set(key,code,5, TimeUnit.MINUTES);
     }
+
+    /**
+     * 验证验证码是否正确
+     * @param key
+     * @param code 等待验证的code
+     * @return
+     */
     public boolean verify(String key,String code){
         String value = (String) redisTemplate.opsForValue().get(key);
         if(value == null){
@@ -32,12 +39,25 @@ public class VerifyCodeUtil {
         }
         return value.equalsIgnoreCase(code);
     }
+
+    /**
+     *
+     * @param nickname 图片验证码(在redis中 以 nickname作为key)
+     * @return ,返回图片链接
+     * @throws IOException
+     */
     public String sendVerifyImg(String nickname) throws IOException {
         String code= RandomUtil.randomString(4);
         setVerifyCode(nickname,code);
         Image image = CaptchaUtil.createShearCaptcha(100,40).createImage(code);
         return OSSUtil.uploadImg((RenderedImage) image,"yzm/"+String.valueOf(System.currentTimeMillis()),true);
     }
+
+    /**
+     *
+     * @param email 以Email作为key,并发送到email
+     */
+
     public void sendVerifyCode(String email){
         String code= RandomUtil.randomString(4);
         EmailUtil.sendVerifyCode(email,code);

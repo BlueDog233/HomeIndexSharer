@@ -26,6 +26,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements c
     @Autowired
     private ContextUtil contextUtil;
 
+    /**
+     * 分页搜索
+     * @param pagesearchDTO
+     * @return
+     */
     @Override
     public List<User> pageSearch(PagesearchDTO pagesearchDTO) {
         if(pagesearchDTO==null){
@@ -39,6 +44,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements c
         return list;
 
     }
+
+    /**
+     * 注册
+     * @param dto
+     * @return
+     */
     @Override
     public String register(RegisterDTO dto) {
         if(dto.getNickname().length()>32 || dto.getPassword().length()>32 || dto.getEmail().length()>32 || dto.getPassword().length()<6){
@@ -54,16 +65,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements c
             throw new CustomException(CommonError.INVALID_VERIFY_CODE.toString());
         }
         User user=new User();
-        user.setEmail(dto.getEmail());
+        user.setMail(dto.getEmail());
         user.setRole(1);
-        user.setGender(0);
-        user.setNickname(dto.getNickname());
+        user.setUsername(dto.getNickname());
         user.setPassword(MD5.create().digestHex(dto.getPassword()));
         save(user);
-        String token= JwtTokenUtil.getToken(user.getId(),user.getNickname(),user.getPassword());
+        String token= JwtTokenUtil.getToken(user.getId(),user.getUsername(),user.getPassword());
         return token;
     }
 
+    /**
+     * 登录
+     * @param dto
+     * @return
+     */
     @Override
     public String login(LoginDTO dto) {
 
@@ -75,37 +90,58 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements c
         }
         User user=getUser(dto.getNickname());
         if(MD5.create().digestHex(dto.getPassword()).equals(user.getPassword())) {
-            String token = JwtTokenUtil.getToken(user.getId(), user.getNickname(), user.getPassword());
+            String token = JwtTokenUtil.getToken(user.getId(), user.getUsername(), user.getPassword());
             return token;
         }
         throw new CustomException("密码错误");
     }
 
+    /**
+     * 通过nickname 获得User
+     * @param nickname
+     * @return
+     */
     @Override
     public User getUser(String nickname) {
         QueryWrapper<User> queryWrapper=new QueryWrapper<User>();
-        queryWrapper.eq("nickname",nickname);
-        return getOne(queryWrapper,false);
-    }@Override
-    public User getUserByEmail(String email) {
-        QueryWrapper<User> queryWrapper=new QueryWrapper<User>();
-        queryWrapper.eq("email",email);
+        queryWrapper.eq("username",nickname);
         return getOne(queryWrapper,false);
     }
 
+    @Override
+    public User getUserByEmail(String email) {
+        QueryWrapper<User> queryWrapper=new QueryWrapper<User>();
+        queryWrapper.eq("mail",email);
+        return getOne(queryWrapper,false);
+    }
 
+    /**
+     * 模糊查询有多少用户(根据用户名)
+     * @param keyword
+     * @return
+     */
     @Override
     public long total(String keyword) {
         QueryWrapper<User> queryWrapper=new QueryWrapper<User>();
-        queryWrapper.like("nickname",keyword);
+        queryWrapper.like("username",keyword);
         return count(queryWrapper);
     }
 
+    /**
+     * 给用户发送图片验证码
+     * @param nickname
+     * @return 图片url
+     * @throws IOException
+     */
     @Override
     public String sendVerifyImg(String nickname) throws IOException {
         return verifyCodeUtil.sendVerifyImg(nickname);
     }
 
+    /**
+     * 发送验证码,如果传入的email字段不是@,尝试通过把字段当username进行查找
+     * @param email
+     */
     @Override
     public void sendVerifyCode(String email) {
         if(!email.contains("@")){
@@ -113,7 +149,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements c
             if(user==null){
                 throw new CustomException(CommonError.USERNAME_NOEXIST.toString());
             }else{
-                email=user.getEmail();
+                email=user.getMail();
             }
         }
         verifyCodeUtil.sendVerifyCode(email);
@@ -124,13 +160,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements c
         return verifyCodeUtil.verify(key,code);
     }
 
+    /**
+     * 修改密码
+     * @param dto
+     * @return
+     */
     @Override
     public String modifyPassword(ChangePasswordDTO dto) {
         if(dto.getNewPassword().equals(dto.getNewPassword())){
             throw new CustomException("两次输入新密码不一致");
         }
         final var user = contextUtil.getUser();
-        if(!dto.getVerifyCode().equals(verifyCodeUtil.getVerifyCode(user.getNickname()))){
+        if(!dto.getVerifyCode().equals(verifyCodeUtil.getVerifyCode(user.getUsername()))){
             throw new CustomException("验证码错误");
         }
         if(dto.getNewPassword().length()<6){
@@ -141,9 +182,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements c
         }
         user.setPassword(MD5.create().digestHex(dto.getNewPassword()));
         updateById(user);
-        return JwtTokenUtil.getToken(user.getId(),user.getNickname(),user.getPassword());
+        return JwtTokenUtil.getToken(user.getId(),user.getUsername(),user.getPassword());
     }
 
+    /**
+     * 找回密码
+     * @param dto
+     * @return
+     */
     @Override
     public String refindPassword(RefindPasswordDTO dto) {
         if(!dto.getPassword().equals(dto.getCheckPassword())){
@@ -158,7 +204,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements c
         User user=contextUtil.getUser();
         user.setPassword(MD5.create().digestHex(dto.getPassword()));
         updateById(user);
-        return JwtTokenUtil.getToken(user.getId(),user.getNickname(),user.getPassword());
+        return JwtTokenUtil.getToken(user.getId(),user.getUsername(),user.getPassword());
 
     }
 

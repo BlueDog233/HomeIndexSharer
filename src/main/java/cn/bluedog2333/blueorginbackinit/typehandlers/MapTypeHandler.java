@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+
+//mybatis 属性转换器,Json数据的String与Map互转
 @MappedJdbcTypes(JdbcType.VARCHAR)
 @MappedTypes(Map.class)
 public class MapTypeHandler extends BaseTypeHandler {

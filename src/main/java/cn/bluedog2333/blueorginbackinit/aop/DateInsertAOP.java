@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.*;
 import java.time.LocalDateTime;
 
+/**
+ * MybatisPlus自动插入时间
+ */
 @Aspect
 @Component
 public class DateInsertAOP {
