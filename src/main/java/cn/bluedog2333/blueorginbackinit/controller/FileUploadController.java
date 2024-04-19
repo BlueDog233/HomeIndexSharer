@@ -17,6 +17,5 @@ public class FileUploadController {
     public Result<String> uploadImg(@RequestPart("img") MultipartFile img) throws IOException {
         String res = OSSUtil.uploadImg((RenderedImage) img, String.valueOf(System.currentTimeMillis()), false);
         return Result.success(res);
-
     }
 }

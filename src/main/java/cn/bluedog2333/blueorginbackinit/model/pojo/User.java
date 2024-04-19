@@ -7,19 +7,18 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("users")
+@TableName("user")
 public class User {
     @TableId
     private Integer id;
-    private String nickname;
+    private String username;
     private String password;
-    private String email;
-    private int gender;
-    private int isVaild;
-    private int isDelete;
+    private String mail;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
-    private String imgUrl;
+    private String avatar;
+    private String html;
+    private int ispublished;
+    private int isbaned;
     private int role;
-    private int spring;
 }

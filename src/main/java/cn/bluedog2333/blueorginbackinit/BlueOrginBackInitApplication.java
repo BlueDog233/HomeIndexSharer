@@ -12,11 +12,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 @MapperScan("cn.bluedog2333.blueorginbackinit.mapper")
 @SpringBootApplication
 public class BlueOrginBackInitApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(BlueOrginBackInitApplication.class, args);
-
     }
-
-
 }

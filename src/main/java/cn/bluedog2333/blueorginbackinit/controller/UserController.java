@@ -51,7 +51,7 @@ public class UserController {
     @PostMapping("")
     public Result<User> add(@RequestBody User user){
         userService.saveOrUpdate(user);
-        return Result.success(userService.getUser(user.getNickname()));
+        return Result.success(userService.getUser(user.getUsername()));
     }
 
     @PostMapping("/del")
@@ -64,7 +64,7 @@ public class UserController {
     @PutMapping("")
     public Result<User> update(User user){
         userService.updateById(user);
-        return Result.success(userService.getUser(user.getNickname()));
+        return Result.success(userService.getUser(user.getUsername()));
     }
 
 
@@ -135,7 +135,12 @@ public class UserController {
         String str=userService.refindPassword(dto);
         return Result.success(str);
     }
-
+    @PostMapping("/publish")
+    public Result publishOrNo(@RequestBody User user){
+        //todo 改变ispublished 为相反的状态 0->1 1->0
+        return Result.success("");
+    }
+    //todo  @PostMapping("/modify")
 
 
 }

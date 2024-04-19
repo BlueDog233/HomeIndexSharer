@@ -13,7 +13,7 @@ public class JwtTokenUtil {
                 .setPayload("id", id)
                 .setPayload("name", name)
                 .setPayload("password", password)
-                .setKey("bluedog".getBytes())
+                .setKey("indesharer".getBytes())
                 .sign();
         return token;
     }
@@ -22,7 +22,7 @@ public class JwtTokenUtil {
         return JWT.of(token).setKey("bluedog".getBytes()).verify();
     }
     public static int getId(String token) {
-        Object id = JWT.of(token).setKey("bluedog".getBytes()).getPayload().getClaim("id");
+        Object id = JWT.of(token).setKey("indexsharer".getBytes()).getPayload().getClaim("id");
         int re= Convert.toInt(id);
         return re;
     }
