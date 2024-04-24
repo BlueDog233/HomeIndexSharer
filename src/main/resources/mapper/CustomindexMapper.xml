@@ -4,16 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.bluedog2333.blueorginbackinit.mapper.CustomindexMapper">
 
-    <resultMap id="BaseResultMap" type="cn.bluedog2333.blueorginbackinit.model.pojo.template.Customindex">
+    <resultMap id="BaseResultMap" type="cn.bluedog2333.blueorginbackinit.model.pojo.Template">
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
             <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="username" column="username" jdbcType="VARCHAR"/>
-            <result property="response" column="response" jdbcType="VARCHAR"/>
+            <result property="author" column="author" jdbcType="VARCHAR"/>
+            <result property="photo" column="photo" jdbcType="VARCHAR"/>
+            <result property="describe" column="describe" jdbcType="VARCHAR"/>
+            <result property="starcount" column="starcount" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,update_time,create_time,
-        username,response
+        author,photo,describe,
+        starcount,name
     </sql>
 </mapper>

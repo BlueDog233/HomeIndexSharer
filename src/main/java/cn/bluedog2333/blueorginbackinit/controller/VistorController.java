@@ -1,7 +1,6 @@
 package cn.bluedog2333.blueorginbackinit.controller;
 
 import cn.bluedog2333.blueorginbackinit.common.Result;
-import cn.bluedog2333.blueorginbackinit.model.pojo.VisitView;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin

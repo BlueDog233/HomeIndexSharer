@@ -2,10 +2,13 @@ package cn.bluedog2333.blueorginbackinit.utils.beanutils;
 
 
 import cn.bluedog2333.blueorginbackinit.common.errors.CustomException;
+import cn.bluedog2333.blueorginbackinit.model.pojo.StoreUser;
 import cn.bluedog2333.blueorginbackinit.model.pojo.User;
+import cn.bluedog2333.blueorginbackinit.service.StoreUserService;
 import cn.bluedog2333.blueorginbackinit.service.UserService;
 import cn.bluedog2333.blueorginbackinit.utils.staticutils.JwtTokenUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +30,9 @@ public class ContextUtil implements ApplicationContextAware {
     @Lazy
     @Autowired
     private UserService userService;
-
+    @Lazy
+    @Autowired
+    private StoreUserService storeUserService;
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
@@ -36,7 +41,14 @@ public class ContextUtil implements ApplicationContextAware {
     public <T> T getBean(Class<T> clazz) {
         return applicationContext.getBean(clazz);
     }
-
+    public StoreUser getStoreUser(){
+        User user=getUser();
+        QueryWrapper<StoreUser> queryWrapper=new QueryWrapper();
+        String username=user.getUsername();//之前的username
+        queryWrapper.eq("username",username);
+        StoreUser storeUser=storeUserService.getOne(queryWrapper,true);
+        return storeUser;
+    }
     public User getUser() {
         RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
         HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();

@@ -1,0 +1,106 @@
+下面我将提供给你以下信息:
+前端的页面显示缓存数据:
+{view}
+用户所有的信息
+{userdata}
+
+现在请你执行下面的命令
+{message}
+回复请使用下面的json格式返回
+{
+    "json":,
+    "code": 3,
+    "type":
+}
+code参数为固定的
+type参数 为一个number值,1为成功 2为失败
+json参数 为下面一个json格式数据,其中需要让前端更改的才填写数据,这个json数据发送给前端用于前端更新页面,你需要根据需要选择前端需要更改的数据,不需要更改的数据不能写在json里,即,对应着json结构,把需要修改的数据写进json中
+{
+  "user": {
+    "avatar": "https://via.placeholder.com/150",
+    "username": "李华",
+    "isPublished": false,
+    "html": "<h1>欢迎访问我的主页</h1>",
+    "style": "狂野的",
+    "textData": "爱好包括但不限于：打球、踢球、阅读、旅游",
+    "photoData": [
+      {"url": "https://via.placeholder.com/600/92c952", "describe": "美丽的风景照", "personality": "活泼"},
+      {"url": "https://via.placeholder.com/600/771796", "describe": "和家人一起出去玩", "personality": "家庭型"}
+    ],
+    "template": 4,
+    "email": "2052774863@qq.com",
+    "stars": [1, 2],
+    "json": "{\"key\":\"value\"}"
+  },
+  "view": {
+    "chooseTemplate": {
+      "isVisible": false,
+      "select": "template",
+      "choose_template": {
+        "photos": [
+          {"url": "https://via.placeholder.com/600/24f355", "describe": "测试图片1"},
+          {"url": "https://via.placeholder.com/600/d32776", "describe": "测试图片2"}
+        ],
+        "author": "模板作者",
+        "describe": "这是一个测试模板",
+        "starcount": 5,
+        "name": "测试模板1"
+      },
+      "templates": [
+        {
+          "photos": [
+            {"url": "https://via.placeholder.com/600/24f355", "describe": "测试图片1"},
+            {"url": "https://via.placeholder.com/600/d32776", "describe": "测试图片2"}
+          ],
+          "author": "模板作者",
+          "describe": "这是一个测试模板",
+          "starcount": 5,
+          "name": "测试模板1"
+        },
+        {
+          "photos": [
+            {"url": "https://via.placeholder.com/600/f66b97", "describe": "测试图片3"},
+            {"url": "https://via.placeholder.com/600/56a8c2", "describe": "测试图片4"}
+          ],
+          "author": "梨花",
+          "describe": "这是第二个测试模板",
+          "starcount": 120,
+          "name": "测试模板2"
+        }
+      ]
+    },
+    "settingTemplate": {
+      "isVisible": false,
+      "infomode": false
+    },
+    "multi_mediaDisplay": {
+      "isVisible": false,
+      "photoUrl": "https://via.placeholder.com/600/92c952",
+      "title": "展示标题",
+      "markdownStr": "# 这是Markdown示例文本"
+    },
+    "message2Ai": {
+      "data": [
+        {
+          "message": "Hello",
+          "from": "System",
+          "type": 2
+        },
+        {
+          "message": "HelloTOO I am human",
+          "from": "User"
+        }
+      ],
+      "describe": "messages",
+      "status": 0
+    }
+  }
+}
+注意,最终回复格式必须为
+符合
+{
+    "json":,
+    "code": 3,
+    "type":
+}
+的json数据格式！！！
