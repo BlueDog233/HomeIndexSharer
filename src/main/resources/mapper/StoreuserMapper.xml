@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bluedog2333.blueorginbackinit.mapper.StoreuserMapper">
+
+    <resultMap id="BaseResultMap" type="cn.bluedog2333.blueorginbackinit.model.pojo.StoreUser">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="isPublish" column="is_publish" jdbcType="TINYINT"/>
+            <result property="html" column="html" jdbcType="VARCHAR"/>
+            <result property="json" column="json" jdbcType="VARCHAR"/>
+            <result property="style" column="style" jdbcType="VARCHAR"/>
+            <result property="textData" column="text_data" jdbcType="VARCHAR"/>
+            <result property="photoData" column="photo_data" jdbcType="VARCHAR"/>
+            <result property="template" column="template" jdbcType="INTEGER"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="stars" column="stars" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,avatar,username,
+        is_publish,html,json,
+        style,text_data,photo_data,
+        template,email,stars
+    </sql>
+</mapper>
