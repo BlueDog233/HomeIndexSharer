@@ -19,7 +19,7 @@ public class PojoUtil {
     StoreUserService storeUserService;
     @Resource
     UserService userService;
-    public void refreshUser(StoreUser storeuserCache){
+    public void refreshUser(StoreUser storeuserCache) throws IllegalAccessException {
         User user=contextUtil.getUser();
         QueryWrapper<StoreUser> queryWrapper=new QueryWrapper();
         String username=user.getUsername();//之前的username
@@ -34,11 +34,12 @@ public class PojoUtil {
         }
         //如果昵称有更新,更新回user表
         if (!storeUser.getUsername().equals(username)) {
+            //todo username 用户名是否重复
             user.setUsername(storeUser.getUsername());
             userService.save(user);
         }
         //数据库保存
-        storeUserService.save(storeUser);
+        storeUserService.saveOrUpdate(storeUser);
     }
 
 }

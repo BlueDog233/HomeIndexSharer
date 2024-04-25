@@ -52,29 +52,33 @@ public class AdminUserController {
     }
 
 
-    @PutMapping("")
-    public Result<User> update(User user){
+    @PutMapping("/update")
+    public Result<Boolean> update(User user){
         userService.updateById(user);
-        return Result.success(null);
+        return Result.success(true);
     }
 
 
     @GetMapping("/{id}")
     public Result<User> get(@PathVariable int id){
+
         return Result.success(userService.getById(id));
+
     }
 
 
     @GetMapping("")
     public Result<List<User>> list(){
+
         return Result.success(userService.list());
+
     }
 
-//    @PostMapping("/pagesearch")
-//    public Result<List<User>> pagesearch(@RequestBody PagesearchDTO dto){
-//
-//        return Result.success(userService.pageSearch(dto));
-//    }
+    @PostMapping("/pagesearch")
+    public Result<List<User>> pagesearch(@RequestBody PagesearchDTO dto){
+
+        return Result.success(userService);
+    }
 
 
 

@@ -62,6 +62,7 @@ public class ContextUtil implements ApplicationContextAware {
             return user;
 
         } catch (Exception e) {
+            e.printStackTrace();
             throw new CustomException("token异常");
 
         }

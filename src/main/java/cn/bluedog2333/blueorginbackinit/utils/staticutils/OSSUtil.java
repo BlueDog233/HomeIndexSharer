@@ -9,6 +9,7 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.RenderedImage;
@@ -31,12 +32,6 @@ public class OSSUtil {
         bucketName = setting.get("bucketName");
     }
 
-    /**
-     * 上传一般数据
-     * @param data
-     * @param name
-     * @return
-     */
     public static String upload(byte[] data, String name) {
         OSS client = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
         try {
@@ -51,15 +46,6 @@ public class OSSUtil {
             }
         }
     }
-
-    /**
-     * 上传文件
-     * @param image
-     * @param name 不需要后缀名
-     * @param isLS 是否为临时文件,临时文件只保留五分钟
-     * @return
-     * @throws IOException
-     */
     public static String uploadImg(RenderedImage image, String name,boolean isLS) throws IOException {
         // ByteArrayOutputStream用于将图像数据写入字节数组
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -78,7 +64,9 @@ public class OSSUtil {
         }
         return s;
     }
-
+    public static String uploadImg2(MultipartFile file) throws IOException {
+        return upload(file.getBytes(), "photo/"+System.currentTimeMillis()+".jpg");
+    }
 
     public static byte[] download(String name){
         OSS ossClient = new OSSClientBuilder().build(endpoint,accessKeyId, accessKeySecret);

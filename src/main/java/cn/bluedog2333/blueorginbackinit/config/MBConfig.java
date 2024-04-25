@@ -1,5 +1,6 @@
 package cn.bluedog2333.blueorginbackinit.config;
 
+import cn.bluedog2333.blueorginbackinit.typehandlers.JsonArrayTypeHandler;
 import cn.bluedog2333.blueorginbackinit.typehandlers.MapTypeHandler;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
@@ -25,16 +26,14 @@ public class MBConfig {
         MybatisSqlSessionFactoryBean sqlSessionFactoryBean = new MybatisSqlSessionFactoryBean();
         sqlSessionFactoryBean.setTypeHandlers(new TypeHandler[]{new MapTypeHandler()});
         sqlSessionFactoryBean.setDataSource(dataSource);
-
         MybatisConfiguration configuration = new MybatisConfiguration();
-// 自动将数据库中的下划线转换为驼峰格式
         configuration.setMapUnderscoreToCamelCase(true);
         configuration.setDefaultFetchSize(100);
         configuration.setDefaultStatementTimeout(30);
         sqlSessionFactoryBean.setConfiguration(configuration);
-        // 将typehandler注册到mybatis
         MapTypeHandler mapTypeHandler=new MapTypeHandler();
-        TypeHandler[] typeHandlers=new TypeHandler[]{mapTypeHandler};
+        JsonArrayTypeHandler jsonArrayTypeHandler=new JsonArrayTypeHandler();
+        TypeHandler[] typeHandlers=new TypeHandler[]{mapTypeHandler,jsonArrayTypeHandler};
         sqlSessionFactoryBean.setTypeHandlers(typeHandlers);
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
