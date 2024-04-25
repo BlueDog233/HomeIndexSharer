@@ -28,9 +28,23 @@ knife4j:
     enable: true
     username: root
     password: 123456
-mybatis-plus :
+mybatis-plus:
   configuration:
+    map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-pagehelper:
-  reasonable: true
-  support-methods-arguments: true
+  global-config:
+    db-config:
+      id-type: auto
+homeindexsharer:
+  jwt:
+    # 设置jwt签名加密时使用的秘钥
+    secret: indexsharer
+    # 设置jwt过期时间
+    expiration: ????
+    # 设置前端传递过来的令牌名称
+    tokenName: token
+  alioss:
+    endpoint: ????
+    access-key-id: ????
+    access-key-secret: ????
+    bucket-name: ????

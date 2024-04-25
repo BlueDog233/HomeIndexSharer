@@ -19,4 +19,5 @@ public class FileUploadController {
         String url=OSSUtil.uploadImg2(img);
         return Result.success(url);
     }
+
 }

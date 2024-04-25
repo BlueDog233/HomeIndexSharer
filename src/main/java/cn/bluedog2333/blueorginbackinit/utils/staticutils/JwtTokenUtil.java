@@ -1,10 +1,15 @@
 package cn.bluedog2333.blueorginbackinit.utils.staticutils;
 
+import cn.bluedog2333.blueorginbackinit.properties.JwtProperties;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.jwt.JWT;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 
 public class JwtTokenUtil {
@@ -15,13 +20,14 @@ public class JwtTokenUtil {
      * @param password
      * @return
      */
-    public static String getToken(int id,String name,String password) {
-        String token = JWT.create()
-                .setPayload("id", id)
-                .setPayload("name", name)
-                .setPayload("password", password)
-                .setKey("indesharer".getBytes())
-                .sign();
+    public static String getToken(int id,String name,String password,JwtProperties jwtProperties) {
+        String token = Jwts.builder()
+                .claim("id",id)
+                .claim("name",name)
+                .claim("password",password)
+                .signWith(SignatureAlgorithm.HS256,jwtProperties.getSecret().getBytes(StandardCharsets.UTF_8))
+                .setExpiration(new Date(System.currentTimeMillis()+jwtProperties.getExpiratime()))
+                .compact();
         return token;
     }
 

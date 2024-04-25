@@ -8,6 +8,8 @@ import cn.bluedog2333.blueorginbackinit.service.UserService;
 import cn.bluedog2333.blueorginbackinit.utils.beanutils.ContextUtil;
 import cn.bluedog2333.blueorginbackinit.utils.beanutils.VerifyCodeUtil;
 import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,8 +52,6 @@ public class AdminUserController {
         userService.removeByIds(ids);
         return Result.success(true);
     }
-
-
     @PutMapping("/update")
     public Result<Boolean> update(User user){
         userService.updateById(user);
@@ -60,25 +60,37 @@ public class AdminUserController {
 
 
     @GetMapping("/{id}")
-    public Result<User> get(@PathVariable int id){
-
-        return Result.success(userService.getById(id));
-
+    public Result<User> getById(@PathVariable int id){
+        User user = userService.getById(id);
+        if(user!=null){
+            return Result.success(user);
+        }
+        return Result.error("没有此用户");
     }
 
 
     @GetMapping("")
     public Result<List<User>> list(){
-
-        return Result.success(userService.list());
+        LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.orderByDesc(User::getId).orderByDesc(User::getUpdateTime);
+        List<User> list = userService.list(lambdaQueryWrapper);
+        return Result.success(list);
 
     }
 
-    @PostMapping("/pagesearch")
-    public Result<List<User>> pagesearch(@RequestBody PagesearchDTO dto){
-
-        return Result.success(userService);
+    @GetMapping("/page")
+    public Result<Page> page(int page,int pageSize){
+        Page<User> pageinfo = new Page<>(page, pageSize);
+        LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.orderByDesc(User::getId);
+        userService.page(pageinfo,lambdaQueryWrapper);
+        return Result.success(pageinfo);
     }
+//    @PostMapping("/pagesearch")
+//    public Result<List<User>> pagesearch(@RequestBody PagesearchDTO dto){
+//
+//        return Result.success(userService);
+//    }
 
 
 
