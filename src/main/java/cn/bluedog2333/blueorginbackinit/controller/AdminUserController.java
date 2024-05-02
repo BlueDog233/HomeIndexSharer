@@ -1,6 +1,8 @@
 package cn.bluedog2333.blueorginbackinit.controller;
 
+import cn.bluedog2333.blueorginbackinit.annotation.NeedPerm;
 import cn.bluedog2333.blueorginbackinit.common.Result;
+import cn.bluedog2333.blueorginbackinit.common.enums.UserPermEnum;
 import cn.bluedog2333.blueorginbackinit.common.errors.CommonError;
 import cn.bluedog2333.blueorginbackinit.model.dto.login.*;
 import cn.bluedog2333.blueorginbackinit.model.pojo.User;
@@ -47,17 +49,22 @@ public class AdminUserController {
 //        return Result.success(userService.get(user.getUsername()));
 //    }
 
+    @NeedPerm(UserPermEnum.ADMIN)
     @PostMapping("/del")
     public Result<Boolean> del(@RequestBody List<Integer> ids){
         userService.removeByIds(ids);
         return Result.success(true);
     }
+
+    @NeedPerm(UserPermEnum.ADMIN)
+
     @PutMapping("/update")
     public Result<Boolean> update(User user){
         userService.updateById(user);
         return Result.success(true);
     }
 
+    @NeedPerm(UserPermEnum.ADMIN)
 
     @GetMapping("/{id}")
     public Result<User> getById(@PathVariable int id){
@@ -67,6 +74,7 @@ public class AdminUserController {
         }
         return Result.error("没有此用户");
     }
+    @NeedPerm(UserPermEnum.ADMIN)
 
 
     @GetMapping("")
@@ -77,6 +85,7 @@ public class AdminUserController {
         return Result.success(list);
 
     }
+    @NeedPerm(UserPermEnum.ADMIN)
 
     @GetMapping("/page")
     public Result<Page> page(int page,int pageSize){
@@ -86,11 +95,6 @@ public class AdminUserController {
         userService.page(pageinfo,lambdaQueryWrapper);
         return Result.success(pageinfo);
     }
-//    @PostMapping("/pagesearch")
-//    public Result<List<User>> pagesearch(@RequestBody PagesearchDTO dto){
-//
-//        return Result.success(userService);
-//    }
 
 
 

@@ -1,7 +1,7 @@
 package cn.bluedog2333.blueorginbackinit.config;
 
 import cn.bluedog2333.blueorginbackinit.common.JacksonObjectMapper;
-import cn.bluedog2333.blueorginbackinit.interceptor.JwtTokenAdminInterceptor;
+//import cn.bluedog2333.blueorginbackinit.interceptor.JwtTokenAdminInterceptor;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,19 +16,19 @@ import java.util.List;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-    @Autowired
-    private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
+/*    @Autowired
+    private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;*/
 
-    /**
+/*    *//**
      * 注册自定义拦截器
      *
-     * @param registry
-     */
+     * @param
+     *//*
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtTokenAdminInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/user/login", "/user/register");
-    }
+    }*/
 //    @Override
 //    public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(jwtInterceptor).addPathPatterns("/api/**")

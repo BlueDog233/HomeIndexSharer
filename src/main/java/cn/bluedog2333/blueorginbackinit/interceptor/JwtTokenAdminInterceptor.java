@@ -12,6 +12,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 /**
  * jwt令牌校验的拦截器
  */
+/*
 @Component
 @Slf4j
 public class JwtTokenAdminInterceptor implements HandlerInterceptor {
@@ -19,9 +20,11 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
     @Autowired
     private JwtProperties jwtProperties;
 
-    /**
+    */
+/**
      * 校验jwt
-     */
+     *//*
+
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (!(handler instanceof HandlerMethod)) {
             return true;
@@ -37,3 +40,4 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
         }
     }
 }
+*/

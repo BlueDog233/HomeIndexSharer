@@ -4,9 +4,7 @@ import cn.bluedog2333.blueorginbackinit.model.pojo.Info;
 import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.ibatis.type.BaseTypeHandler;
-import org.apache.ibatis.type.JdbcType;
-import org.apache.ibatis.type.TypeReference;
+import org.apache.ibatis.type.*;
 
 import java.io.IOException;
 import java.sql.CallableStatement;
@@ -14,7 +12,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
+@MappedJdbcTypes(JdbcType.VARCHAR)
+@MappedTypes(List.class)
 public class JsonArrayTypeHandler extends BaseTypeHandler<List<Info>> {
     private final ObjectMapper objectMapper = new ObjectMapper();
 

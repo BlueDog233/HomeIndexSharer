@@ -18,6 +18,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public Result error(HttpServletRequest request, Exception e) {
+        e.printStackTrace();
         return Result.error("系统异常");
     }
 

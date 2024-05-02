@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2024-04-24 14:35:22
 */
 public interface StoreUserService extends IService<StoreUser> {
-
     String uploadInfo(Info info);
+
+    void useTemplate(Integer templateId);
 }

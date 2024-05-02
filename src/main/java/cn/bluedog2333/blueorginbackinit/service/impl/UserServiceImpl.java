@@ -5,9 +5,11 @@ import cn.bluedog2333.blueorginbackinit.mapper.StoreuserMapper;
 import cn.bluedog2333.blueorginbackinit.model.dto.login.LoginDTO;
 import cn.bluedog2333.blueorginbackinit.model.dto.login.RegisterDTO;
 import cn.bluedog2333.blueorginbackinit.model.pojo.StoreUser;
+import cn.bluedog2333.blueorginbackinit.properties.FileStoreProperties;
 import cn.bluedog2333.blueorginbackinit.properties.JwtProperties;
 import cn.bluedog2333.blueorginbackinit.service.StoreUserService;
 import cn.bluedog2333.blueorginbackinit.utils.staticutils.JwtTokenUtil;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.crypto.digest.MD5;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -30,10 +32,11 @@ import java.io.IOException;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     implements UserService{
-    @Autowired
-    private JwtProperties jwtProperties;
+
     @Resource
     StoreuserMapper storeuserMapper;
+    @Autowired
+    private FileStoreProperties fileStoreProperties;
 
     public String register(RegisterDTO registerDTO){
         var userOptional=getOneOpt(new QueryWrapper<User>().eq("username",registerDTO.getNickname()));
@@ -43,19 +46,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             save(User.builder().username(registerDTO.getNickname()).password(MD5.create().digestHex(registerDTO.getPassword())).build());
             StoreUser build = StoreUser.builder().username(registerDTO.getNickname()).build();
             storeuserMapper.insert(build);
-            final String path = ResourceUtil.getResource("html/" + registerDTO.getNickname() + ".html").getPath();
-            File file=new File(path);
-            if (!file.exists()) {
-                try {
-                    file.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(e);
-                }
-            }
+            // 在指定路径下创建新文件
+            File newFile = FileUtil.touch(new File(fileStoreProperties.getHtmlStorePath()+"user/"+registerDTO.getNickname()+".html"));
+            File newFile2 = FileUtil.touch(new File(fileStoreProperties.getHtmlStorePath()+"user/"+registerDTO.getNickname()+".json"));
         });
+
         var user=getOne(new QueryWrapper<User>().eq("username",registerDTO.getNickname()));
-        String token=JwtTokenUtil.getToken(user.getId(),registerDTO.getNickname(),user.getPassword(),jwtProperties);
+        String token=JwtTokenUtil.getToken(user.getId(),registerDTO.getNickname(),user.getPassword());
         return token;
 
     }
@@ -67,9 +64,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             throw new CustomException("未找到该用户");
         });
         var user=getOne(new QueryWrapper<User>().eq("username",loginDTO.getNickname()));
-        String token=JwtTokenUtil.getToken(user.getId(),loginDTO.getNickname(),user.getPassword(),jwtProperties);
+        String token=JwtTokenUtil.getToken(user.getId(),loginDTO.getNickname(),user.getPassword());
         return token;
-        //todo login
     }
 }
 

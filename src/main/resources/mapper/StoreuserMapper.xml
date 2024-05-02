@@ -25,4 +25,6 @@
         style,text_data,photo_data,
         template,email,stars
     </sql>
+
+
 </mapper>
