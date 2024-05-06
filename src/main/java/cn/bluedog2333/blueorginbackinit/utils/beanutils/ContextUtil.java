@@ -53,7 +53,6 @@ public class ContextUtil implements ApplicationContextAware {
         RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
         HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
         try {
-            System.out.println(JwtTokenUtil.getId(request.getHeader("token")));
             int id = JwtTokenUtil.getId(request.getHeader("token"));
             User user = userService.getById(id);
             if (ObjectUtil.isNull(user)) {
@@ -62,9 +61,7 @@ public class ContextUtil implements ApplicationContextAware {
             return user;
 
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new CustomException("token异常");
-
+            return null;
         }
 
 

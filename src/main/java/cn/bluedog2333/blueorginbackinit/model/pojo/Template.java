@@ -9,6 +9,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.File;
 import java.io.Serializable;
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,10 +25,11 @@ import lombok.Data;
 public class Template implements Serializable {
     @TableId
     private Integer id;
-    private Date updateTime;
-    private Date createTime;
+    private LocalDateTime updateTime;
+    private LocalDateTime createTime;
     private String author;
-    private List<Info> photo;
+    private List<Info> photo=new ArrayList<>();
+    @TableField("`describe`")
     private String describe;
     private Integer starcount;
     private String name;

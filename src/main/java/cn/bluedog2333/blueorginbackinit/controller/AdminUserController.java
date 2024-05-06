@@ -40,14 +40,13 @@ public class AdminUserController {
     @Autowired
     private UserService userService;
     @Autowired
-    private VerifyCodeUtil verifyCodeUtil;
-    @Autowired
     private ContextUtil contextUtil;
-//    @PostMapping("")
-//    public Result<User> add(@RequestBody User user){
-//        userService.saveOrUpdate(user);
-//        return Result.success(userService.get(user.getUsername()));
-//    }
+/*  @PostMapping("")
+    public Result<User> add(@RequestBody User user){
+        userService.saveOrUpdate(user);
+        return Result.success(userService.get(user.getUsername()));
+    }
+    */
 
     @NeedPerm(UserPermEnum.ADMIN)
     @PostMapping("/del")

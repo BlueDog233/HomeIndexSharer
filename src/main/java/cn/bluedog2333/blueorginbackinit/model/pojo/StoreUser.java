@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
@@ -36,10 +37,10 @@ public class StoreUser {
     private Integer isPublish;
     private String style;
     private String textData;
-    private List<Info> photoData;
+    private List<Info> photoData =new ArrayList<>();
     private Integer template;
     private String email;
-    private List<Integer> stars;
+    private ArrayList<Integer> stars=new ArrayList<>();
     @TableField(exist = false)
     private LocalDateTime updateTime;
     @TableField(exist = false)
@@ -61,4 +62,7 @@ public class StoreUser {
         FileUtil.writeUtf8String(s,newFile);
     }
 
+    public String toString(){
+        return "username:"+getUsername()+"   email"+getEmail()+"      头像url:"+getAvatar();
+    }
 }

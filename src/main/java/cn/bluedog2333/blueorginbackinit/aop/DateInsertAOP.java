@@ -27,16 +27,14 @@ public class DateInsertAOP {
 
         if(method.getParameters()[0].getName().equals("entity")){
             Object obj=joinPoint.getArgs()[0];
-            Field updatetime= obj.getClass().getDeclaredField("updateTime");
-            Field createtime= obj.getClass().getDeclaredField("createTime");
+            Field updatetime = obj.getClass().getDeclaredField("updateTime");
+            Field createtime = obj.getClass().getDeclaredField("createTime");
             updatetime.setAccessible(true);
             updatetime.set(obj, LocalDateTime.now());
             createtime.setAccessible(true);
-
             if(ObjectUtil.isNull(createtime.get(obj))){
                 createtime.set(obj, LocalDateTime.now());
             }
-
         }
         return joinPoint.proceed();
     }

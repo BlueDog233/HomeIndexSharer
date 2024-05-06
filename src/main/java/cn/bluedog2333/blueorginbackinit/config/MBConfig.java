@@ -1,5 +1,6 @@
 package cn.bluedog2333.blueorginbackinit.config;
 
+import cn.bluedog2333.blueorginbackinit.typehandlers.JsonArrayIntegerTypeHandler;
 import cn.bluedog2333.blueorginbackinit.typehandlers.JsonArrayTypeHandler;
 import cn.bluedog2333.blueorginbackinit.typehandlers.MapTypeHandler;
 import com.baomidou.mybatisplus.annotation.DbType;
@@ -33,7 +34,8 @@ public class MBConfig {
         sqlSessionFactoryBean.setConfiguration(configuration);
         MapTypeHandler mapTypeHandler=new MapTypeHandler();
         JsonArrayTypeHandler jsonArrayTypeHandler=new JsonArrayTypeHandler();
-        TypeHandler[] typeHandlers=new TypeHandler[]{mapTypeHandler,jsonArrayTypeHandler};
+        JsonArrayIntegerTypeHandler jsonInteger=new JsonArrayIntegerTypeHandler();
+        TypeHandler[] typeHandlers=new TypeHandler[]{mapTypeHandler,jsonArrayTypeHandler,jsonInteger};
         sqlSessionFactoryBean.setTypeHandlers(typeHandlers);
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));

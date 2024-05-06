@@ -12,5 +12,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface StoreUserService extends IService<StoreUser> {
     String uploadInfo(Info info);
 
+    String aiMixed();
+
     void useTemplate(Integer templateId);
 }

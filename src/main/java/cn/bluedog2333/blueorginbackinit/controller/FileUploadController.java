@@ -15,9 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 
 @CrossOrigin
 @RestController
@@ -42,7 +40,7 @@ public class FileUploadController {
             final String originalFilename = file.getOriginalFilename();
             var user=contextUtil.getStoreUser();
             Path targetLocation = Paths.get(FileStoreProperties.storePath+"/cache", user.getUsername()+originalFilename.substring(originalFilename.lastIndexOf('.',originalFilename.length())));
-            Files.copy(file.getInputStream(), targetLocation);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
             return ResponseEntity.ok("文件上传成功，保存到: " + targetLocation.toString());
         } catch (Exception e) {

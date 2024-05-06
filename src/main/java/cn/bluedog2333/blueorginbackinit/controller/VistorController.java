@@ -29,38 +29,62 @@ public class VistorController {
 
     //获取Json信息
     @RequestMapping("/json/{username}")
-    public String getJson(@PathVariable("username")String username){
-        String str="";
-        QueryWrapper<StoreUser> storeUserQueryWrapper=new QueryWrapper<>();
-        storeUserQueryWrapper.eq("username",username);
-        var user=storeUserService.getOne(storeUserQueryWrapper);
-        if(user==null){
+    public String getJson(@PathVariable("username") String username) {
+        String str = "";
+        QueryWrapper<StoreUser> storeUserQueryWrapper = new QueryWrapper<>();
+        storeUserQueryWrapper.eq("username", username);
+        var user = storeUserService.getOne(storeUserQueryWrapper);
+        if (user == null) {
             return null;
         }
-        str=user.getJson();
+        str = user.getJson();
         return str;
     }
-    @RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = "text/html")
-    public String visit(@PathVariable("username")String username){
-        String str="";
-        QueryWrapper<StoreUser> storeUserQueryWrapper=new QueryWrapper<>();
-        storeUserQueryWrapper.eq("username",username);
-        var user=storeUserService.getOne(storeUserQueryWrapper);
-        if(user==null){
-            str=FileUtil.readString(fileStoreProperties.getHtmlStorePath()+"base/404.html", Charset.defaultCharset());
+
+    @RequestMapping(value = "/mod/{username}", method = RequestMethod.GET, produces = "text/html")
+    public String visit(@PathVariable("username") String username) {
+        String str = "";
+        QueryWrapper<StoreUser> storeUserQueryWrapper = new QueryWrapper<>();
+        storeUserQueryWrapper.eq("username", username);
+        var user = storeUserService.getOne(storeUserQueryWrapper);
+        if (user == null) {
+            str = FileUtil.readString(fileStoreProperties.getHtmlStorePath() + "base/404.html", Charset.defaultCharset());
             return str;
         }
         Integer isPublish = user.getIsPublish();
         try {
             if (contextUtil.getStoreUser().getUsername().equals(username)) {
-                str= user.getHtml();
+                str = user.getHtml();
                 return str;
             }
-        }catch (Exception e){
-            if(isPublish==0){
-                str=FileUtil.readString(fileStoreProperties.getHtmlStorePath()+"base/404.html", Charset.defaultCharset());
-            }else{
-                str=user.getHtml();
+        } catch (Exception e) {
+
+            str = user.getHtml();
+        }
+        return str;
+    }
+
+    @RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = "text/html")
+    public String visitA(@PathVariable("username") String username) {
+        String str = "";
+        QueryWrapper<StoreUser> storeUserQueryWrapper = new QueryWrapper<>();
+        storeUserQueryWrapper.eq("username", username);
+        var user = storeUserService.getOne(storeUserQueryWrapper);
+        if (user == null) {
+            str = FileUtil.readString(fileStoreProperties.getHtmlStorePath() + "base/404.html", Charset.defaultCharset());
+            return str;
+        }
+        Integer isPublish = user.getIsPublish();
+        try {
+            if (contextUtil.getStoreUser().getUsername().equals(username)) {
+                str = user.getHtml();
+                return str;
+            }
+        } catch (Exception e) {
+            if (isPublish == 0) {
+                str = FileUtil.readString(fileStoreProperties.getHtmlStorePath() + "base/404.html", Charset.defaultCharset());
+            } else {
+                str = user.getHtml();
             }
         }
         return str;

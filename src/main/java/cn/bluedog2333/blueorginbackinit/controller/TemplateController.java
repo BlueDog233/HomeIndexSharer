@@ -14,6 +14,7 @@ import cn.hutool.core.util.ZipUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import jakarta.annotation.Resource;
+import okio.Path;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
@@ -40,46 +41,41 @@ public class TemplateController {
     public Result<List<Template>> list() {
         var user = contextUtil.getStoreUser();
         QueryWrapper<Template> templateWrapper = new QueryWrapper<>();
-        templateWrapper.not(e -> {
-            e.like("author", "_");
-        }).or().eq("author", "_" + user.getUsername());
         List<Template> templates = new ArrayList<>();
-        templates.addAll(templateServiceImpl.list(templateWrapper));
+        templateServiceImpl.list().stream().filter(x->!x.getAuthor().startsWith("_") || x.getAuthor().equals("_"+user.getUsername())).forEach(templates::add);
         return Result.success(templates);
     }
 
     @PostMapping("/upload")
     public Result upload(@RequestBody TemplateUploadDTO templateUploadDTO) {
         var user = contextUtil.getStoreUser();
-        File file = new File(fileStoreProperties.getHtmlStorePath() + "/cache/" + user.getUsername() + ".zip");
+        var file = new File(fileStoreProperties.getHtmlStorePath() + "/cache/" + user.getUsername() + ".zip").getPath();
         // 指定解压目标目录
-        File targetDirectory = FileUtil.file(fileStoreProperties.getHtmlStorePath() + "/template/" + templateUploadDTO.getName());
+        File targetDirectory = FileUtil.mkdir(fileStoreProperties.getHtmlStorePath() + "/template/" + templateUploadDTO.getName());
         // 解压操作
         try {
-            ZipUtil.unzip(file, targetDirectory);
-            System.out.println("解压完成！");
+            ZipUtil.unzip(file, targetDirectory.getPath());
         } catch (Exception e) {
-            System.err.println("解压失败：" + e.getMessage());
         }
         File html = new File(fileStoreProperties.getHtmlStorePath() + "/template/" + templateUploadDTO.getName() + "/index.html");
         String htmlC = FileUtil.readString(html, Charset.defaultCharset());
         Template template = new Template();
-        template.setAuthor(templateUploadDTO.isPrivate() ? "_" + user.getUsername() : user.getUsername());
+        template.setAuthor(templateUploadDTO.isIsprivate() ? "_" + user.getUsername() : user.getUsername());
         template.setName(templateUploadDTO.getName());
         template.setDescribe(templateUploadDTO.getDescribe());
-        for (File fi : targetDirectory.listFiles()) {
-            int index = 0;
-            if (FileUtil.getSuffix(fi).equals("png") || FileUtil.getSuffix(fi).equals("jpg")) {
-                String url = OSSUtil.upload(FileUtil.readBytes(fi), templateUploadDTO.getName() + index++ + ".jpg");
+        int index = 0; // 将index声明移至循环外部，确保文件名的唯一性
+        for (File fi : Path.get(targetDirectory.getPath()).toFile().listFiles()) {
+            String suffix = FileUtil.getSuffix(fi);
+            if (suffix != null && (suffix.equals("png") || suffix.equals("jpg"))) {
+                String url = OSSUtil.upload(FileUtil.readBytes(fi), templateUploadDTO.getName() + (index++) + ".jpg");
                 Info info = new Info();
                 info.setUrl(url);
                 template.getPhoto().add(info);
             }
         }
-        String modifyHtml = openAIService.modiefyHtml(htmlC);
-        template.setHtml(modifyHtml);
-        templateServiceImpl.save(template);
 
+        template.setHtml(htmlC);
+        templateServiceImpl.save(template);
         return Result.success(null);
     }
 

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TemplateUploadDTO {
-    private boolean isPrivate;
+    private boolean isprivate;
     private String describe;
     private String name;
 

@@ -18,7 +18,6 @@ public class TerminalController {
     public TerminalController(OpenAIService openAIService) {
         this.openAIService = openAIService;
     }
-
     @PostMapping("/chat")
     public JSONObject chat(@RequestBody AiRequestDTO aiRequestDTO){
         String str= openAIService.command(JSONUtil.toJsonStr(aiRequestDTO.getMessage()),aiRequestDTO.getMessage());

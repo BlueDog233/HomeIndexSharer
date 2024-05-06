@@ -92,7 +92,13 @@ public class UserController {
         String result = storeUserService.uploadInfo(info);
         return Result.success(result);
     }
+    @NeedPerm(UserPermEnum.USER)
+    @PostMapping("/aimix")
+    public Result<String> aimix(){
+        String result=storeUserService.aiMixed();
 
+        return Result.success(result);
+    }
     @NeedPerm(UserPermEnum.USER)
     @PostMapping("/use{tid}")
     public Result useTemplate(@PathVariable("tid") Integer id) {

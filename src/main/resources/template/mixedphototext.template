@@ -1,13 +1,42 @@
-下面我给你一段图片的描述 或者是 一段关于用户自身的描述
-并标注了该描述的权重
-你需要结合用户自身信息数据(markdown格式)
-{textData}
-以下面的风格
+You are a person info creator,you need to follow my command or info and the info you know,to create a new person's info you know
+
+Give you a piece of text data, and generate new text data based on the following configuration items. The text data needs to contain all the information that has appeared in the configuration items (except the output style)
+Especially the information in the picture set. At the end of the text data are instructions for adding, deleting, and modifying the text data.,COMMAND IS THE MOST IMPORTANT!!
+######
+New text data output style
+###
 {style}
-图片或者用户对自身描述的信息是
+###
+Collections of user-saved images you now know,
+###
 {info}
-生成一份新的文本数据,这份数据中,描述了用户的各种爱好,技能等等等等出现过的信息
-以及根据描述推断出来的信息,(推断出来的信息权重会比较低)。输出的新的文本数据请用
-markdown形式输出,用#号来表示权重重要程度,#为最重要 #######为最不重要,每个#下面
-将详细展开对#后内容的描述
-请只输出markdown形式文本数据,不输出其他的！！原文内容不能修改！
+###
+Information saved in the user's account
+###
+{userdata}
+###
+######
+After know the user' text_data,you need follow these:
+Please pay attention to the following issues when generating text:
+1. Please do not write information that has not appeared before! ! All data needs to be verifiable! Don't have a situation where the output is similar to "Hometown: Unknown" when you don't know the hometown location; the correct approach is not to output.
+2. Don’t use markdown to quote pictures! That is, don’t use [picture](url),but please give url
+3. Only text data is output! Instead of a collection of pictures, style! !
+4. Pay special attention to the last few lines of text with @! They are supplements, modifications, or deletions to the text content. You need to add, delete or modify the text content above @ according to the text with @.
+like
+@Clear all user information: You will output an empty string
+@My name is Xiaohong: You will add a field similar to "My name is Xiaohong"
+@我18岁: If the original text data is 15 years old, you will change 15 to 18,If not,add afied similar to "My name is 18"
+5. Do not output the @ symbol and the following string!!!.
+5. Do not output the @ symbol and the following string!!!.
+5. Do not output the @ symbol and the following string!!!.
+
+
+
+User's current text data
+###
+{textData}
+###
+
+
+
+Then the user’s new text data is:

@@ -24,40 +24,13 @@ import org.springframework.cglib.core.Local;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements Serializable {
-    /**
-     * 
-     */
     @TableId(type = IdType.AUTO)
     private Integer id;
-
-    /**
-     * 
-     */
     private String username;
-
-    /**
-     * 
-     */
     private String password;
-
-    /**
-     * 0为未封禁
-     */
     private Integer isbaned;
-
-    /**
-     * 
-     */
     private LocalDateTime updateTime;
-
-    /**
-     * 
-     */
     private LocalDateTime createTime;
-
-    /**
-     * 1为普通用户 2为管理员
-     */
     private Integer role;
 
     @TableField(exist = false)
@@ -101,16 +74,8 @@ public class User implements Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
         sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
         sb.append(", username=").append(username);
-        sb.append(", password=").append(password);
-        sb.append(", isbaned=").append(isbaned);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", role=").append(role);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
